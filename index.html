@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zeus Killer - Spam Comment Removal</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  </head>
+  <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <i class="bi bi-lightning-charge-fill me-2 fs-3"></i>
+          <span>Zeus Killer</span>
+        </a>
+        <script
+          type="text/javascript"
+          src="https://edge-cdn.trakteer.id/js/embed/trbtn.min.js?v=24-01-2025"></script>
+        <script type="text/javascript">
+          (function () {
+            var trbtnId = trbtn.init(
+              'Trakteer',
+              '#be1e2d',
+              'https://trakteer.id/udnap',
+              'https://trakteer.id/images/mix/coffee.png',
+              '40',
+            );
+            trbtn.draw(trbtnId);
+          })();
+        </script>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <!-- Status Dashboard -->
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-3 text-center">
+              <div
+                class="d-flex justify-content-center align-items-center mb-2">
+                <i class="bi bi-key-fill text-primary fs-1"></i>
+              </div>
+              <h5 class="card-title">Authorization Status</h5>
+
+              <!-- Auth Status -->
+              <div class="mb-3">
+                <span id="authStatus" class="badge bg-danger p-2"
+                  >Not Authorized</span
+                >
+                <p class="text-muted mt-2">Please authorize to use this app</p>
+              </div>
+
+              <!-- Re-authorize button -->
+              <button id="openAuthModalBtn" class="btn btn-outline-primary">
+                <i class="bi bi-shield-lock me-2"></i>Manage Authorization
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-3 text-center">
+              <div
+                class="d-flex justify-content-center align-items-center mb-2">
+                <i class="bi bi-chat-dots text-info fs-1"></i>
+              </div>
+              <h5 class="card-title">Total Comments</h5>
+              <p id="totalComments" class="display-6 mb-3">-</p>
+              <button
+                id="getCommentsBtn"
+                class="btn btn-info w-100 text-white disabled">
+                <i class="bi bi-arrow-repeat me-2"></i>Scan Comments
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-3 text-center">
+              <div
+                class="d-flex justify-content-center align-items-center mb-2">
+                <i class="bi bi-lightning-charge text-danger fs-1"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="zeus-icon">Zeus</span> Spam Detected
+              </h5>
+              <p id="spamCount" class="display-6 mb-3">-</p>
+              <button id="deleteAllBtn" class="btn btn-danger w-100 disabled">
+                <i class="bi bi-trash me-2"></i>Banish All
+                <span class="zeus-icon">Zeus</span> Spam
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar (Visible when scanning) -->
+      <div class="progress d-none mb-4" id="scanProgress">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          style="
+            width: 0%;
+            background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
+          "></div>
+      </div>
+
+      <!-- Comments Section -->
+      <div class="row" id="commentsSection">
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div
+              class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+              <h5 class="mb-0">All Comments</h5>
+              <span class="badge bg-primary rounded-pill" id="commentCount"
+                >0</span
+              >
+            </div>
+            <div class="card-body p-0">
+              <div class="list-group list-group-flush" id="allComments">
+                <!-- Comments will be populated here -->
+                <div class="text-center p-4 text-muted">
+                  <i class="bi bi-chat-square-text fs-1 mb-2"></i>
+                  <p>Click "Scan Comments" to load comments</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div
+              class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+              <h5 class="mb-0">
+                <span class="zeus-icon">Zeus</span> Spam Comments
+              </h5>
+              <span class="badge bg-danger rounded-pill" id="spamBadge">0</span>
+            </div>
+            <div class="card-body p-0">
+              <div class="list-group list-group-flush" id="spamComments">
+                <!-- Spam comments will be populated here -->
+                <div class="text-center p-4 text-muted">
+                  <i class="bi bi-lightning-charge-fill fs-1 mb-2"></i>
+                  <p>
+                    No <span class="zeus-icon">Zeus</span> spam comments found
+                    yet
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-3 border-top mt-auto">
+      <div class="container text-center text-muted">
+        <small>&copy; 2025 Zeus Killer - Battling Illegal Betting Spam</small>
+      </div>
+    </footer>
+
+    <!-- Toast container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        id="errorToast"
+        class="toast align-items-center text-white bg-danger border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span id="toastMessage">An error occurred.</span>
+          </div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authorization Modal -->
+    <div
+      class="modal fade"
+      id="authModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="authModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="authModalLabel">
+              <i class="bi bi-lightning-charge-fill me-2"></i>
+              Zeus Killer Authorization
+            </h5>
+          </div>
+          <div class="modal-body text-center p-4">
+            <div class="mb-4">
+              <i class="bi bi-shield-lock fs-1 text-primary mb-2"></i>
+              <h5 class="mb-3">Authorize YouTube Access</h5>
+              <p class="text-muted">
+                To scan and moderate comments, you need to authorize this app
+                with your YouTube account.
+              </p>
+
+              <!-- Auth Status inside modal -->
+              <div class="alert alert-info mb-3">
+                <span id="authStatusModal">Not authorized</span>
+              </div>
+            </div>
+
+            <!-- Channel ID Input -->
+            <div class="mb-4">
+              <label for="channelIdInput" class="form-label text-start d-block">
+                YouTube Channel ID
+              </label>
+              <input
+                type="text"
+                class="form-control mb-2"
+                id="channelIdInput"
+                placeholder="Enter Channel ID" />
+              <small
+                id="channelIdHelp"
+                class="form-text text-muted d-block text-start">
+                Find this in your channel's URL or in YouTube Studio settings
+              </small>
+            </div>
+
+            <!-- Credentials File Input -->
+            <div class="mb-4">
+              <label class="form-label text-start d-block">
+                Google API Credentials
+              </label>
+              <div class="input-group mb-2">
+                <input
+                  type="file"
+                  class="form-control"
+                  id="credentialsFileInput"
+                  accept=".json" />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="uploadCredentialsBtn">
+                  <i class="bi bi-upload"></i> Upload
+                </button>
+              </div>
+              <small class="form-text text-muted d-block text-start">
+                Upload your Google API credentials file (JSON format) from
+                Google Cloud Console
+              </small>
+              <div
+                id="credentialsStatus"
+                class="d-none mt-2 alert alert-success">
+                Credentials uploaded successfully
+              </div>
+            </div>
+
+            <!-- Auth Button -->
+            <button id="authorizeBtn" class="btn btn-primary w-100">
+              <i class="bi bi-shield-lock me-2"></i>Authorize with YouTube
+            </button>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <small class="text-muted">
+              Your data is secure and only used to manage comments on your
+              channel
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>
