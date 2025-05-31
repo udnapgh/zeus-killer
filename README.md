@@ -1,6 +1,14 @@
-# Zeus Killer
+<p align="center">
+ <img width="100px" src="https://github.com/udnapgh/zeus-killer/blob/main/assets/icon.ico" align="center" alt="Zeus Killer Apps" />
+ <h2 align="center">Zeus Killer</h2>
+ <p align="center">A desktop application for YouTube content creators to automatically detect and remove online gambling/betting spam comments from their YouTube videos.</p>
 
-A desktop application for YouTube content creators to automatically detect and remove online gambling/betting spam comments from their YouTube videos.
+</p>
+
+<p align="center">
+  <img width="30%" src="https://drive.usercontent.google.com/download?id=12843WRujCCAD1hgF1jk3Eew42SgCkeXI" align="center" alt="Zeus Killer Apps" />
+  <img width="30%" src="https://drive.usercontent.google.com/download?id=1ssbr3Cl2b2JE4xG1rDm4hhfO4ATCru5B" align="center" alt="Zeus Killer Apps" />
+</p>
 
 ## Features
 
